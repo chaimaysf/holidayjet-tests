@@ -16,6 +16,7 @@ pipeline {
             steps {
                 sh 'npm ci'
                 sh 'npx playwright install chromium'
+            }
         }
 
         stage('Test - test env') {
@@ -34,6 +35,12 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+        }
+        success {
+            echo 'Tests passed'
+        }
+        failure {
+            echo 'Tests failed'
         }
     }
 }
