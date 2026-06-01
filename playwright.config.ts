@@ -5,7 +5,7 @@ export default defineConfig({
   testDir: './tests',
   timeout: 60000,
   use: {
-    headless: false,
+    headless: process.env.CI ? true : false,
     launchOptions: {
       slowMo: 500,
     },
