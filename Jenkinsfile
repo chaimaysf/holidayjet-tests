@@ -1,15 +1,14 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:20'
-            args '--ipc=host'
-        }
-    }
+    agent any
 
     environment {
         BASE_URL_TEST = 'https://www.holidayjet.co.uk'
         BASE_URL_PREPROD = 'https://preprod.holidayjet.co.uk'
         CI = 'true'
+    }
+
+    tools {
+        nodejs 'node20'
     }
 
     stages {
@@ -36,12 +35,6 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
-        }
-        success {
-            echo 'Tests passed'
-        }
-        failure {
-            echo 'Tests failed'
         }
     }
 }
