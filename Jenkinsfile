@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:v1.50.0-noble'
+            args '--ipc=host'
+        }
+    }
 
     environment {
         BASE_URL_TEST = 'https://www.holidayjet.co.uk'
@@ -7,15 +12,10 @@ pipeline {
         CI = 'true'
     }
 
-    tools {
-        nodejs 'node20'
-    }
-
     stages {
         stage('Install') {
             steps {
                 sh 'npm ci'
-                sh 'npx playwright install chromium'
             }
         }
 
